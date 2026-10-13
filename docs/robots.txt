@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://oaleffemanuel.github.io/biblioth-que-fran-aise/sitemap.xml
