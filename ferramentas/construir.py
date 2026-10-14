@@ -166,7 +166,8 @@ def page(fname, title, desc, body, extra_head=''):
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header"><div class="wrap">
 <a class="brand" href="./"><img src="assets/favicon.svg" alt="" width="34" height="34"><span>Bibliothèque Française<small>lire pour apprendre</small></span></a>
-<nav class="nav" aria-label="Principal">{nav}</nav>
+<button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="menu" hidden>Menu</button>
+<nav class="nav" id="menu" aria-label="Principal">{nav}</nav>
 </div></header>
 <main id="conteudo">
 {body}
@@ -270,13 +271,15 @@ def p_catalogo():
 <select id="trilha" aria-label="Trilha"><option value="">Todas as trilhas</option>{tr_opts}</select>
 <select id="ordem" aria-label="Ordenar"><option value="sugerida">Ordem sugerida</option><option value="curtas">Mais curtas primeiro</option><option value="longas">Mais longas primeiro</option><option value="titulo">Título (A–Z)</option></select>
 </div>
+<button type="button" class="filters-toggle" id="filtros-botao" aria-expanded="true" aria-controls="filtros-mais" hidden>Mais filtros</button>
+<div class="filters-more" id="filtros-mais">
 <div class="chips" role="group" aria-label="Etapa">{chips_t}</div>
 <div class="chips" role="group" aria-label="Forma">{chips_f}</div>
 <div class="toggles">
 <label><input type="checkbox" id="f-audio"> Com áudio</label>
 <label><input type="checkbox" id="f-pdf"> PDF para baixar aqui</label>
 <label>Minha lista: <select id="lista"><option value="">todas</option><option value="quero">quero ler</option><option value="lido">já li</option><option value="nao-lido">ainda não li</option></select></label>
-</div></div></div>
+</div></div></div></div>
 <div class="wrap">
 <div class="result-bar"><span id="count" aria-live="polite">{N} obras</span>
 <span><button type="button" class="btn small ghost" id="sorteio">🎲 Sortear uma leitura</button> <button type="button" class="btn small ghost" id="limpar">Limpar filtros</button></span></div>

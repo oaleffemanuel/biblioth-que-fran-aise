@@ -21,6 +21,15 @@
     });
   });
 
+  // menu em telas estreitas: o botão só aparece com JS; sem JS a lista de links fica visível
+  const navToggle = document.getElementById('nav-toggle'), nav = document.getElementById('menu');
+  if (navToggle && nav) {
+    navToggle.hidden = false; nav.classList.add('closed');
+    const setNav = open => { nav.classList.toggle('closed', !open); navToggle.setAttribute('aria-expanded', String(open)); };
+    navToggle.addEventListener('click', () => setNav(nav.classList.contains('closed')));
+    document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !nav.classList.contains('closed')) { setNav(false); navToggle.focus(); } });
+  }
+
   const grid = document.getElementById('grid');
   if (!grid) return;
   const cards = Array.from(grid.querySelectorAll('.obra'));
@@ -78,9 +87,23 @@
       if (q.value.trim()) p.set('q', q.value.trim());
       history.replaceState(null, '', (p.toString() ? '?' + p : location.pathname));
     }
+    if (fBtn && fMore) setMore(!fMore.classList.contains('closed'));
     return shown;
   }
   window.apply = apply;
+
+  // em telas estreitas, etapas, formas e opções extras ficam recolhidas atrás de "Mais filtros"
+  const fBtn = document.getElementById('filtros-botao'), fMore = document.getElementById('filtros-mais');
+  const extras = () => Object.values(chipGroups).reduce((n, s) => n + s.size, 0) + (audio.checked ? 1 : 0) + (pdf.checked ? 1 : 0) + (lista.value ? 1 : 0);
+  function setMore(open) {
+    if (!fBtn || !fMore) return;
+    fMore.classList.toggle('closed', !open); fBtn.setAttribute('aria-expanded', String(open));
+    const n = extras(); fBtn.textContent = (open ? 'Menos filtros' : 'Mais filtros') + (n ? ' (' + n + ')' : '');
+  }
+  if (fBtn && fMore) {
+    fBtn.hidden = false;
+    fBtn.addEventListener('click', () => setMore(fMore.classList.contains('closed')));
+  }
 
   // estado inicial a partir da URL (links compartilháveis, ex.: catalogo.html?etapa=1&audio=1)
   const p = new URLSearchParams(location.search);
@@ -96,6 +119,7 @@
   if (p.get('lista')) lista.value = p.get('lista');
   if (p.get('ordem')) ordem.value = p.get('ordem');
   if (p.get('q')) q.value = p.get('q');
+  if (fBtn && fMore) setMore(!window.matchMedia('(max-width: 640px)').matches || extras() > 0);
   apply(false);
 
   document.getElementById('limpar').addEventListener('click', () => {
