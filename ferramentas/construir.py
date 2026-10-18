@@ -164,7 +164,9 @@ def page(fname, title, desc, body, extra_head=''):
 {extra_head}</head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<header class="site-header"><div class="wrap">
+<header class="site-header">
+<div class="eco"><a href="https://lg.korium.co/">← Todas as bibliotecas</a></div>
+<div class="wrap">
 <a class="brand" href="./"><img src="assets/favicon.svg" alt="" width="34" height="34"><span>Bibliothèque Française<small>lire pour apprendre</small></span></a>
 <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="menu" hidden>Menu</button>
 <nav class="nav" id="menu" aria-label="Principal">{nav}</nav>

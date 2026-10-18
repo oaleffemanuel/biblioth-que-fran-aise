@@ -21,6 +21,17 @@
     });
   });
 
+  // cabeçalho fixo: a linha do portal rola para fora e os filtros ficam logo abaixo da parte que permanece
+  const header = document.querySelector('.site-header'), eco = document.querySelector('.eco');
+  const syncTopo = () => {
+    if (!header) return;
+    const e = eco ? eco.offsetHeight : 0;
+    document.documentElement.style.setProperty('--eco', e + 'px');
+    document.documentElement.style.setProperty('--topo', (header.offsetHeight - e) + 'px');
+  };
+  syncTopo(); window.addEventListener('resize', syncTopo);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncTopo);
+
   // menu em telas estreitas: o botão só aparece com JS; sem JS a lista de links fica visível
   const navToggle = document.getElementById('nav-toggle'), nav = document.getElementById('menu');
   if (navToggle && nav) {
