@@ -81,8 +81,13 @@
   };
   function apply(push) {
     const shown = cards.filter(visible).sort(sorters[ordem.value] || sorters.sugerida);
-    cards.forEach(c => { c.hidden = true; });
-    shown.forEach(c => { c.hidden = false; grid.appendChild(c); });
+    // Só mexe no que muda: esconder tudo e reexibir encolhia a página e fazia o navegador perder a posição de leitura.
+    const vis = new Set(shown);
+    cards.forEach(c => { const h = !vis.has(c); if (c.hidden !== h) c.hidden = h; });
+    const atual = Array.from(grid.children).filter(c => !c.hidden);
+    if (atual.length !== shown.length || shown.some((c, i) => atual[i] !== c)) {
+      const frag = document.createDocumentFragment(); shown.forEach(c => frag.appendChild(c)); grid.appendChild(frag);
+    }
     count.textContent = shown.length === 1 ? '1 obra' : shown.length + ' obras';
     empty.hidden = shown.length > 0;
     if (push) {
